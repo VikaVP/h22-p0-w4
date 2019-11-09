@@ -15,39 +15,31 @@ function countProfit(shoppers) {
         // value listBarang[i]
         // i++
 
-        // buat objek penampung
-        var objNew = {}
-        // buat isi objek sementara
-        objNew.product = listBarang[i][0]
-        objNew.shoppers = []
-
+        // buat objek
+        var objNew = {
+            product: listBarang[i][0],
+            shoppers: [],
+            leftOver: listBarang[i][2],
+            totalProfit: 0
+        }
         // looping shopper
-        var qty = 0
         for (let j = 0; j < shoppers.length; j++) {
             // value shoppers[j]
             // j++
 
-            // buat syarat jika produk sama dengan di objek dan qty <= qty listBarang
-            if (shoppers[j].product === objNew.product && shoppers[j].amount <= listBarang[i][2]) {
-                qty += shoppers[j].amount
-                objNew.shoppers.push(shoppers[j].name)
+            if (shoppers[j].product == listBarang[i][0]) {
+                // cek apakah produk sm dengan di listbarang
+                if (shoppers[j].amount > listBarang[i][2]) {
+                    break;
+                    // jika melebihi stok abaikan
+                } else {
+                    // ubah isi objek
+                    objNew.shoppers.push(shoppers[j].name)
+                    listBarang[i][2] -= shoppers[j].amount
+                    objNew.leftOver = listBarang[i][2]
+                    objNew.totalProfit += shoppers[j].amount * listBarang[i][1]
+                }
             }
-        }
-        // kondisi jika qty nya <= qty di listbarang
-        if (qty <= listBarang[i][2]) {
-            // masukan leftover ke objek
-            objNew.LeftOver = listBarang[i][2] - qty
-            // buat kondisi untuk menentukan profit
-            if (objNew.product === listBarang[0][0]) {
-                objNew.totalProfit = qty * listBarang[0][1]
-            } else if (objNew.product === listBarang[1][0]) {
-                objNew.totalProfit = qty * listBarang[1][1]
-            } else {
-                objNew.totalProfit = qty * listBarang[2][1]
-            }
-        } else {
-            objNew.leftOver = listBarang[i][2]
-            objNew.totalProfit = 0
         }
         temp.push(objNew)
     }
