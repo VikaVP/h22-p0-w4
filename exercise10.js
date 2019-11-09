@@ -17,7 +17,6 @@ function changeMe(arr) {
             console.log(`${i+1}. ${obj.firstName} ${obj.lastName}`);
             console.log(obj);
         }
-        return obj
     }
 }
 
